@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdFund.Web", "CrowdFund.Web\CrowdFund.Web.csproj", "{8051BB3E-1AE0-4958-B6FF-F2C245F38149}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdFund.Web", "CrowdFund.Web\CrowdFund.Web.csproj", "{8051BB3E-1AE0-4958-B6FF-F2C245F38149}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdFund.Core", "CrowdFund.Core\CrowdFund.Core.csproj", "{55084BAE-32D6-44F3-AF61-91978D9C0B10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{8051BB3E-1AE0-4958-B6FF-F2C245F38149}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8051BB3E-1AE0-4958-B6FF-F2C245F38149}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8051BB3E-1AE0-4958-B6FF-F2C245F38149}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55084BAE-32D6-44F3-AF61-91978D9C0B10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55084BAE-32D6-44F3-AF61-91978D9C0B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55084BAE-32D6-44F3-AF61-91978D9C0B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55084BAE-32D6-44F3-AF61-91978D9C0B10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,10 +1,15 @@
+using CrowdFund.Core.Data.Implementations;
+using CrowdFund.Core.Services.Contracts;
+using CrowdFund.Core.Services.Implementations;
 using CrowdFund.Web.Authentication;
+using CrowdFund.Web.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +27,12 @@ namespace CrowdFund.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions<AppSettings>();
+
+            var appSettings = new AppSettings();
+
+            this.Configuration.GetSection(nameof(AppSettings)).Bind(appSettings);
+
             services.AddAuthentication(sharedOptions =>
             {
                 sharedOptions.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -29,6 +40,8 @@ namespace CrowdFund.Web
             .AddAzureAdBearer(options => Configuration.Bind("AzureAd", options));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDbContext<CrowdFundDbContext>(x => x.UseSqlServer(appSettings.CrowdFundConnectionString));
+            services.AddScoped<IClientService, ClientsService>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
