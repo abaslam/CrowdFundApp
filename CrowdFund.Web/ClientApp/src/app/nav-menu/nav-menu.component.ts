@@ -32,7 +32,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
   }
 
   logIn() {
-    this.msalService.loginPopup();
+    this.msalService.loginRedirect();
   }
 
   logOut() {

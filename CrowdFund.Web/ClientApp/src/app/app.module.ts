@@ -1,15 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { MsalModule, MsalGuard } from '@azure/msal-angular'
+import { MsalModule, MsalGuard, MsalInterceptor } from '@azure/msal-angular'
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LogLevel } from 'msal';
+import { WeatherService } from './shared/weather.service';
 
 export function loggerCallback(logLevel, message, piiEnabled) {
   console.log("client logging" + message);
@@ -19,9 +20,9 @@ export function loggerCallback(logLevel, message, piiEnabled) {
 export const protectedResourceMap: [string, string[]][] = [['https://graph.microsoft.com/v1.0/me', ['user.read']]];
 
 export const routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full'},
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
-  { path: 'fetch-data', component: FetchDataComponent, canActivate: [MsalGuard]},
+  { path: 'fetch-data', component: FetchDataComponent, canActivate: [MsalGuard] },
 ];
 
 @NgModule({
@@ -36,7 +37,7 @@ export const routes = [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-  
+
     MsalModule.forRoot({
       clientID: "a7846767-cd7d-425e-941e-6d097ba795ff",
       authority: "https://login.microsoftonline.com/6479a0bc-9188-4501-89d6-54f75f696d73/",
@@ -45,7 +46,7 @@ export const routes = [
       cacheLocation: "localStorage",
       postLogoutRedirectUri: "https://localhost:44369/",
       navigateToLoginRequestUrl: true,
-      popUp: true,
+      popUp: false,
       consentScopes: ["user.read"],
       unprotectedResources: ["https://angularjs.org/"],
       protectedResourceMap: protectedResourceMap,
@@ -57,7 +58,11 @@ export const routes = [
 
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [WeatherService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: MsalInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
